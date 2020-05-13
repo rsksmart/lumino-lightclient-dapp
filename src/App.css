@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,600&display=swap');
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: #000;
+}
+
+#root {
+    height: 100vh;
+}
+
+.bg-page {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+
+    background-image: url("./images/bg.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.4;
+}
+
+.buttons-list {
+    /*width: 100%;*/
+    /*max-width: 260px;*/
+}
+
+.buttons-list button {
+    font-weight: 600;
+    background: #2c9dc3;
+    border: none;
+    position: relative;
+    padding-left: 40px;
+}
+
+.buttons-list button svg {
+    height: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 12px;
+}
+
+.buttons-list button:hover {
+    background: #1f7a98;
+}
+
+.z-1 {
+    z-index: 1;
+}
+
+.z-2 {
+    z-index: 2;
+}
+
+.z-2 {
+    z-index: 3;
+}
+
+b {
+    font-weight: 600;
+}
+
+.fw-400 {
+    font-weight: 400;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+/* MODALS STYLES */
+.modal-content {
+    background: transparent;
+    border: none;
+}
+
+.modal-header {
+    background: #009DC3;
+    border: none;
+}
+
+.modal-header .close {
+    position: absolute;
+    right: 20px;
+    text-shadow: none;
+}
+
+.modal-body {
+    background: #ffffff;
+}
+
+.modal-title {
+    margin: 0 auto;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.modal-footer {
+    background: #ffffff;
+    border: none;
+}
+
+.channel-list {
+    max-height: 340px;
+    overflow-y: auto;
+}

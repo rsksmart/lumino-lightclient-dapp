@@ -1,0 +1,7 @@
+.ChannelListItemComponent li {
+    line-height: 1.2;
+}
+
+.ChannelListItemComponent > li + > li {
+    margin-top: 1rem;
+}
