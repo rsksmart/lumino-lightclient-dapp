@@ -17,22 +17,15 @@ import SendTokensModal from "./components/SendTokensModal";
 
 class App extends React.Component {
   state = {
-    showSendTokens: false,
+    showSendTokens: false
   };
 
   componentDidMount = async () => {
     this.props.makeStartup();
   };
 
-  subscribeToNotifier = async() =>{
-    await Lumino.get().actions.notifierRegistration();
-    await Lumino.get().actions.subscribeToOpenChannel()
-  };
-
   onboarding = async () => {
     await Lumino.get().actions.onboardingClient();
-
-
   };
 
   openChannel = async () => {
@@ -76,24 +69,6 @@ class App extends React.Component {
                   />
                 </svg>
                 Onboarding
-              </Button>
-            </li>
-            <li className="mx-2">
-              <Button onClick={this.subscribeToNotifier}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  data-icon="plus"
-                  data-prefix="fal"
-                  viewBox="0 0 384 512"
-                  width={15}
-                >
-                  <path
-                    fill="#ffffff"
-                    d="M376 232H216V72c0-4.42-3.58-8-8-8h-32c-4.42 0-8 3.58-8 8v160H8c-4.42 0-8 3.58-8 8v32c0 4.42 3.58 8 8 8h160v160c0 4.42 3.58 8 8 8h32c4.42 0 8-3.58 8-8V280h160c4.42 0 8-3.58 8-8v-32c0-4.42-3.58-8-8-8z"
-                  />
-                </svg>
-                Subscribe to notifier
               </Button>
             </li>
             <li className="mx-2">
@@ -165,9 +140,9 @@ class App extends React.Component {
   };
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    channels: state.channel.list,
+    channels: state.channel.list
   };
 };
 
@@ -176,8 +151,8 @@ function mapDispatchToProps(dispatch) {
     makeStartup: () => {
       dispatch(makeStartup());
     },
-    loadChannels: (channels) => dispatch(channelsLoaded(channels)),
-    openChannelModal: (status) => dispatch(changeOpenChannelStatus(status)),
+    loadChannels: channels => dispatch(channelsLoaded(channels)),
+    openChannelModal: status => dispatch(changeOpenChannelStatus(status))
   };
 }
 

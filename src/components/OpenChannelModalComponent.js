@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
+  Input
 } from "reactstrap";
 
 import { changeOpenChannelStatus } from "../actions/global";
@@ -22,7 +22,7 @@ class OpenChannelModalComponent extends React.Component {
     super(props);
     this.state = {
       partner: "",
-      tokenAddress: "",
+      tokenAddress: ""
     };
   }
 
@@ -31,7 +31,7 @@ class OpenChannelModalComponent extends React.Component {
     const params = {
       partner,
       settleTimeout: 500,
-      tokenAddress,
+      tokenAddress
     };
     const message = `Request to open a channel with partner ${partner} on token ${tokenAddress}`;
     showInfo(message);
@@ -47,11 +47,11 @@ class OpenChannelModalComponent extends React.Component {
     this.props.toggle(!this.props.modalOpened);
   };
 
-  handlePartnerChange = (event) => {
+  handlePartnerChange = event => {
     this.setState({ partner: event.target.value });
   };
 
-  handleTokenChange = (event) => {
+  handleTokenChange = event => {
     this.setState({ tokenAddress: event.target.value });
   };
 
@@ -96,16 +96,16 @@ class OpenChannelModalComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    modalOpened: state.global.openedOpenChannel,
+    modalOpened: state.global.openedOpenChannel
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggle: (data) => dispatch(changeOpenChannelStatus(data)),
-    loadChannels: (channels) => dispatch(channelsLoaded(channels)),
+    toggle: data => dispatch(changeOpenChannelStatus(data)),
+    loadChannels: channels => dispatch(channelsLoaded(channels))
   };
 }
 

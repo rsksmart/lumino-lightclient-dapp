@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
+  Input
 } from "reactstrap";
 
 import { changeDepositModal } from "../actions/channel";
@@ -19,7 +19,7 @@ class DepositModalComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      amount: "",
+      amount: ""
     };
   }
 
@@ -30,7 +30,7 @@ class DepositModalComponent extends React.Component {
       tokenName,
       tokenNetworkAddress,
       partner,
-      channelId,
+      channelId
     } = this.props;
     const theAmount = toWei(this.state.amount);
     const paramsDeposit = {
@@ -38,7 +38,7 @@ class DepositModalComponent extends React.Component {
       tokenNetworkAddress,
       amount: theAmount,
       channelId,
-      partner,
+      partner
     };
     const message = `Requested deposit of ${amount} ${tokenName} on channel ${channelId} with partner ${partner} `;
     showInfo(message);
@@ -61,7 +61,7 @@ class DepositModalComponent extends React.Component {
     }
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({ amount: event.target.value });
   };
 
@@ -107,15 +107,15 @@ class DepositModalComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    modalOpened: state.channel.openedDepositModal,
+    modalOpened: state.channel.openedDepositModal
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggle: (data) => dispatch(changeDepositModal(data)),
+    toggle: data => dispatch(changeDepositModal(data))
   };
 }
 

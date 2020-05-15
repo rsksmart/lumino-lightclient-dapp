@@ -5,7 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Lumino } from "@rsksmart/lumino-light-client-sdk";
 import { showInfo } from "../utils";
 
-const CloseModalComponent = (props) => {
+const CloseModalComponent = props => {
   const { isOpen, toggle, partner, channelId, tokenName } = props;
 
   const closeChannel = async () => {
@@ -14,7 +14,7 @@ const CloseModalComponent = (props) => {
       tokenAddress: props.tokenAddress,
       address: props.address,
       tokenNetworkAddress: props.tokenNetworkAddress,
-      channel_identifier: props.channelId,
+      channelIdentifier: props.channelId
     };
     const message = `Requesting to close channel `;
     showInfo(message);
