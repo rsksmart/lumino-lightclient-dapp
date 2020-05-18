@@ -16,7 +16,7 @@ This web application represents a Lumino light client, therefore, it must connec
 - [RSK node](https://github.com/rsksmart/rskj) to interact directly with the RSK blockchain.
 
 
-In order to use this example, you must have a Lumino HUB, RIF Notifier and a RSK node up and running.
+In order to use this example, you must have a Lumino HUB, RIF Notifier and a RSK node up and running. Also, you must set the RNS registry address for your environment (https://developers.rsk.co/rif/rns/specs/registry/)
 
 Then, just modify the `.env` file: 
 
@@ -27,6 +27,7 @@ REACT_APP_PRIVATE_KEY=your_private_key_here
 REACT_APP_RSK_ENDPOINT=http://localhost:4444
 REACT_APP_HUB_ENDPOINT=http://localhost:5003/api/v1/
 REACT_APP_RIF_NOTIFIER_ENDPOINT=http://localhost:8080
+REACT_APP_REGISTRY_ADDRESS="0xCd5805d60Bbf9Afe69a394c2BDa10F6Dae2c39AF"
 
 ```
 

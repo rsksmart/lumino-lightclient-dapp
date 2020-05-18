@@ -11,7 +11,7 @@ import {
   Lumino,
   LocalStorageHandler,
   SigningHandler
-} from "lumino-light-client-sdk";
+} from "@rsksmart/lumino-light-client-sdk";
 import {
   address,
   hubEndpoint,
