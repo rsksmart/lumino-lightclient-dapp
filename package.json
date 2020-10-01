@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@rsksmart/lumino-light-client-sdk": "file:../lumino-light-client-sdk",
     "bootstrap": "^4.4.1",
     "ethers": "^4.0.40",
     "react": "^16.12.0",

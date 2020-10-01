@@ -14,6 +14,7 @@ import { channelsLoaded } from "./actions/channel";
 
 import OpenChannelModalComponent from "./components/OpenChannelModalComponent";
 import SendTokensModal from "./components/SendTokensModal";
+import {notifierEndpoints, tokenNetworkAddresses} from "./constants/app";
 
 class App extends React.Component {
   state = {
@@ -25,7 +26,24 @@ class App extends React.Component {
   };
 
   onboarding = async () => {
-    await Lumino.get().actions.onboardingClient();
+    const lumino = Lumino.get();
+
+    await lumino.actions.onboardingClient();
+
+    for (let notifierEndpoint of notifierEndpoints) {
+      await lumino.actions.notifierRegistration(notifierEndpoint);
+      await lumino.actions.subscribeToOpenChannel(notifierEndpoint);
+    }
+
+    for (let networkAddress of tokenNetworkAddresses) {
+      for (let notifierEndpoint of notifierEndpoints) {
+        await lumino.actions.subscribeToUserClosesChannelOnToken(
+            notifierEndpoint,
+            networkAddress
+        );
+      }
+    }
+
   };
 
   openChannel = async () => {
