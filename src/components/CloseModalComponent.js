@@ -27,7 +27,7 @@ const CloseModalComponent = props => {
       await lumino.actions.subscribeToPartnerClosesSpecificChannel(
           notifierEndpoint,
           props.channelId,
-          props.tokenAddress
+          props.tokenNetworkAddress
       );
     }
 
