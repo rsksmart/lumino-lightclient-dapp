@@ -6,6 +6,7 @@ import {
 const initialState = {
   web3: undefined,
   openedOpenChannel: false,
+  initialized: false,
 }
 const global = (state = initialState, action) => {
   switch (action.type) {
@@ -13,6 +14,7 @@ const global = (state = initialState, action) => {
       return {
         ...state,
         web3: action.web3,
+        initialized: action.initialized
       }
     case CHANGE_OPEN_CHANNEL_MODAL:
       return {
