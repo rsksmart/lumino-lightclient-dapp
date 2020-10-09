@@ -34,9 +34,34 @@ class ChannelListItemComponent extends React.Component {
     this.setState({ openClose: !openClose });
   };
 
+  getSdkStatusName(status) {
+    const statusName = channelStatus[status];
+    if (!statusName) {
+      return status;
+    }
+    return statusName;
+  }
+
+  getButtons (status) {
+    return this.props.initialized && status && status === "CHANNEL_OPENED" ? (
+        <li className="ml-lg-auto mt-3 mt-lg-0">
+          <Button color="info" className="mx-2" onClick={this.deposit}>
+            Deposit
+          </Button>
+          <Button color="success" className="mx-2" onClick={this.pay}>
+            Pay
+          </Button>
+          <Button color="danger" className="mx-2" onClick={this.toggleClose}>
+            Close
+          </Button>
+        </li>
+    ) : null;
+  }
+
   render() {
     const { status, partner, tokenAddress, balance, tokenName } = this.props;
-    let statusName = channelStatus[status];
+    let statusName = this.getSdkStatusName(status);
+    const buttons = this.getButtons(status);
     let modalId = tokenAddress + "-" + partner;
     const { openClose } = this.state;
     return (
@@ -65,17 +90,7 @@ class ChannelListItemComponent extends React.Component {
             <span className="fw-600">Status:</span> {statusName}
           </span>
         </li>
-        <li className="ml-lg-auto mt-3 mt-lg-0">
-          <Button color="info" className="mx-2" onClick={this.deposit}>
-            Deposit
-          </Button>
-          <Button color="success" className="mx-2" onClick={this.pay}>
-            Pay
-          </Button>
-          <Button color="danger" className="mx-2" onClick={this.toggleClose}>
-            Close
-          </Button>
-        </li>
+        {buttons}
         <PayModalComponent
           tokenName={tokenName}
           modalId={modalId}
@@ -107,7 +122,9 @@ class ChannelListItemComponent extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+      initialized: state.global.initialized
+  };
 };
 
 function mapDispatchToProps(dispatch) {

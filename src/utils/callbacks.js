@@ -3,6 +3,7 @@ import { Lumino } from "@rsksmart/lumino-light-client-sdk";
 import { showInfo, showSuccess } from "../utils";
 import { toEth } from "../utils";
 import { CALLBACKS } from "@rsksmart/lumino-light-client-sdk/src/utils/callbacks";
+import {notifierEndpoints} from "../constants/app";
 
 const setCallbacks = reloadChannelsFN => {
   Lumino.callbacks.set(CALLBACKS.RECEIVED_PAYMENT, () => {
@@ -40,11 +41,19 @@ const setCallbacks = reloadChannelsFN => {
     const {
       channel_identifier: chId,
       partner_address: p,
-      token_name
+      token_name,
+      token_network_identifier
     } = channel;
     const message = `Opened new channel ${chId} with partner ${p} on token ${token_name}`;
     showSuccess(message);
     reloadChannelsFN();
+    for (let notifierEndpoint of notifierEndpoints) {
+      Lumino.get().actions.subscribeToPartnerClosesSpecificChannel(
+          notifierEndpoint,
+          chId,
+          token_network_identifier
+      );
+    }
   });
 
   Lumino.callbacks.set(CALLBACKS.DEPOSIT_CHANNEL, channel => {
