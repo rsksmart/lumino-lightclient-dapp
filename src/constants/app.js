@@ -6,6 +6,7 @@ export const hubEndpoint = process.env.REACT_APP_HUB_ENDPOINT;
 export const registryAddress = process.env.REACT_APP_RNS_REGISTRY_CONTRACT_ADDRESS;
 export const tokenNetworkAddresses = getListFromString(process.env.REACT_APP_TOKEN_NETWORK_ADDRESSES);
 export const notifierEndpoints = getListFromString(process.env.REACT_APP_NOTIFIER_ENDPOINTS);
+export const refreshChannelsTimeout = getListFromString(process.env.REACT_APP_REFRESH_CHANNELS_TIMEOUT_SECONDS);
 
 function getListFromString (environmentVariable, splitter = ',') {
     if (!environmentVariable) {
