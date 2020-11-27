@@ -1,0 +1,8 @@
+#!/bin/bash
+
+nvm use webdapp
+
+# Usage mode: ./startLC <LC_PORT_NUMBER> <ADDRESS> <PRIVATE_KEY> <HUB_PORT>
+# This script starts the LC with the specified parameters
+
+PORT=$1 REACT_APP_ADDRESS=$2 REACT_APP_PRIVATE_KEY=$3 REACT_APP_HUB_ENDPOINT=http://localhost:$4/api/v1/ npm start
