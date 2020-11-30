@@ -14,7 +14,14 @@ import { channelsLoaded } from "./actions/channel";
 
 import OpenChannelModalComponent from "./components/OpenChannelModalComponent";
 import SendTokensModal from "./components/SendTokensModal";
-import {notifierEndpoints, refreshChannelsTimeout, tokenNetworkAddresses} from "./constants/app";
+import {
+  address,
+  chainId, hubEndpoint,
+  notifierEndpoints,
+  PrivateKey,
+  refreshChannelsTimeout, registryAddress, rskEndpoint,
+  tokenNetworkAddresses
+} from "./constants/app";
 
 class App extends React.Component {
 
@@ -106,9 +113,28 @@ class App extends React.Component {
     ] : [];
   }
 
+  getInfo() {
+    return (
+        <div className="network-info">
+          <ul className="list-unstyled">
+            <li>Address: {address}</li>
+            <li>PKey: {PrivateKey}</li>
+            <li>Chain Id: {chainId}</li>
+            <li>RSK Endpoint: {rskEndpoint}</li>
+            <li>Hub Endpoint: {hubEndpoint}</li>
+            <li>Registry Contract Address: {registryAddress}</li>
+            <li>Token Network Addresses: {tokenNetworkAddresses.join(', ')}</li>
+            <li>Notifier Endpoints: {notifierEndpoints.join(', ')}</li>
+            <li>Refreshing Channels after {refreshChannelsTimeout} seconds</li>
+          </ul>
+        </div>
+    );
+  }
+
   render = () => {
     const { showSendTokens } = this.state;
     const sendButtons = this.getSendButtons();
+    const info = this.getInfo();
     return (
       <div className="App d-flex h-100 flex-column">
         <div className="bg-page" />
@@ -143,21 +169,21 @@ class App extends React.Component {
             {sendButtons}
           </ul>
         </header>
-
+        <li>{info}</li>
         <ul className="list-unstyled p-3 channel-list z-2 mt-auto">
           {Object.values(this.props.channels).map((channel, index) => {
             return (
-              <ChannelListItemComponent
-                key={index}
-                tokenName={channel.token_name || "???"}
-                tokenSymbol={channel.token_symbol || "???"}
-                partner={channel.partner_address}
-                balance={channel.offChainBalance}
-                status={channel.sdk_status}
-                tokenAddress={channel.token_address}
-                tokenNetworkAddress={channel.token_network_identifier}
-                channelId={channel.channel_identifier}
-              />
+                <ChannelListItemComponent
+                    key={index}
+                    tokenName={channel.token_name || "???"}
+                    tokenSymbol={channel.token_symbol || "???"}
+                    partner={channel.partner_address}
+                    balance={channel.offChainBalance}
+                    status={channel.sdk_status}
+                    tokenAddress={channel.token_address}
+                    tokenNetworkAddress={channel.token_network_identifier}
+                    channelId={channel.channel_identifier}
+                />
             );
           })}
         </ul>
