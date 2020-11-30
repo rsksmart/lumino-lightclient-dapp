@@ -1,25 +1,22 @@
 import React from "react";
 import "./App.css";
 import { connect } from "react-redux";
-
+import copyToClipboard from 'copy-to-clipboard';
 import ChannelListItemComponent from "./components/ChannelListItemComponent";
-
 import { Button } from "reactstrap";
-
 import { Lumino } from "@rsksmart/lumino-light-client-sdk";
-
 import { makeStartup, changeOpenChannelStatus } from "./actions/global";
-
 import { channelsLoaded } from "./actions/channel";
-
 import OpenChannelModalComponent from "./components/OpenChannelModalComponent";
 import SendTokensModal from "./components/SendTokensModal";
 import {
   address,
-  chainId, hubEndpoint,
+  chainId,
+  hubEndpoint,
   notifierEndpoints,
   PrivateKey,
-  refreshChannelsTimeout, registryAddress, rskEndpoint,
+  registryAddress,
+  rskEndpoint,
   tokenNetworkAddresses
 } from "./constants/app";
 
@@ -32,9 +29,6 @@ class App extends React.Component {
 
   componentDidMount = async () => {
     this.props.makeStartup();
-    this.interval = setInterval(() => {
-      this.refreshChannels();
-    }, refreshChannelsTimeout * 1000);
   };
 
   componentWillUnmount() {
@@ -68,7 +62,7 @@ class App extends React.Component {
     this.props.openChannelModal(true);
   };
 
-  refreshChannels= async () => {
+  refreshChannels = async () => {
     const channels = await Lumino.get().actions.getChannels();
     this.props.loadChannels(channels);
   }
@@ -113,11 +107,21 @@ class App extends React.Component {
     ] : [];
   }
 
+  copyAddressToClipboard() {
+    copyToClipboard(address);
+  }
+
   getInfo() {
     return (
         <div className="network-info">
           <ul className="list-unstyled">
-            <li>Address: {address}</li>
+            <li>Address: {address}
+              <svg onClick={this.copyAddressToClipboard} aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy"
+                   className="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 448 512" width={15}>
+                <path fill="currentColor"
+                      d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>
+              </svg></li>
             <li>PKey: {PrivateKey}</li>
             <li>Chain Id: {chainId}</li>
             <li>RSK Endpoint: {rskEndpoint}</li>
@@ -125,7 +129,6 @@ class App extends React.Component {
             <li>Registry Contract Address: {registryAddress}</li>
             <li>Token Network Addresses: {tokenNetworkAddresses.join(', ')}</li>
             <li>Notifier Endpoints: {notifierEndpoints.join(', ')}</li>
-            <li>Refreshing Channels after {refreshChannelsTimeout} seconds</li>
           </ul>
         </div>
     );
@@ -164,6 +167,24 @@ class App extends React.Component {
                   />
                 </svg>
                 Onboarding
+              </Button>
+            </li>
+            <li className="mx-2">
+              <Button onClick={this.refreshChannels}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    data-icon="sync"
+                    data-prefix="fal"
+                    viewBox="0 0 512 512"
+                    width={15}
+                >
+                  <path
+                      fill="#ffffff"
+                      d="M492 8h-10c-6.627 0-12 5.373-12 12v110.627C426.929 57.261 347.224 8 256 8 123.228 8 14.824 112.338 8.31 243.493 7.971 250.311 13.475 256 20.301 256h10.016c6.353 0 11.646-4.949 11.977-11.293C48.157 132.216 141.097 42 256 42c82.862 0 154.737 47.077 190.289 116H332c-6.627 0-12 5.373-12 12v10c0 6.627 5.373 12 12 12h160c6.627 0 12-5.373 12-12V20c0-6.627-5.373-12-12-12zm-.301 248h-10.015c-6.352 0-11.647 4.949-11.977 11.293C463.841 380.158 370.546 470 256 470c-82.608 0-154.672-46.952-190.299-116H180c6.627 0 12-5.373 12-12v-10c0-6.627-5.373-12-12-12H20c-6.627 0-12 5.373-12 12v160c0 6.627 5.373 12 12 12h10c6.627 0 12-5.373 12-12V381.373C85.071 454.739 164.777 504 256 504c132.773 0 241.176-104.338 247.69-235.493.339-6.818-5.165-12.507-11.991-12.507z"
+                  />
+                </svg>
+                Refresh Channels
               </Button>
             </li>
             {sendButtons}
