@@ -100,7 +100,7 @@ class App extends React.Component {
           </li>
       ),
       (
-          <li className="mx-2">
+          <li key="refresh-channels" className="mx-2">
             <Button onClick={this.refreshChannels}>
               <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +135,7 @@ class App extends React.Component {
       )
     ] : [
       (
-          <li className="mx-2">
+          <li key="onboarding" className="mx-2">
             <Button onClick={this.onboarding}>
               <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -174,11 +174,19 @@ class App extends React.Component {
               </svg></li>
             <li>PKey: {PrivateKey}</li>
             <li>Chain Id: {chainId}</li>
-            <li>RSK Endpoint: {rskEndpoint}</li>
-            <li>Hub Endpoint: {hubEndpoint}</li>
+            <li>RSK Endpoint: <a href={rskEndpoint}>{rskEndpoint}</a></li>
+            <li>Hub Endpoint: <a href={hubEndpoint}>{hubEndpoint}</a></li>
             <li>Registry Contract Address: {registryAddress}</li>
             <li>Token Network Addresses: {tokenNetworkAddresses.join(', ')}</li>
-            <li>Notifier Endpoints: {notifierEndpoints.join(', ')}</li>
+            <li>
+              Notifier Endpoints:&nbsp;
+              {notifierEndpoints.map((notifierEndpoint, index) => {
+                if (index < notifierEndpoints.length - 1) {
+                  return (<span key={`notifier-endpoint-${index}`}><a key={`notifier-endpoint-link-${index}`} href={notifierEndpoint}>{notifierEndpoint}</a>,&nbsp;</span>);
+                }
+                return (<span key={`notifier-endpoint-${index}`}><a key={`notifier-endpoint-link-${index}`} href={notifierEndpoint}>{notifierEndpoint}</a></span>);
+              })}
+            </li>
           </ul>
         </div>
     );
