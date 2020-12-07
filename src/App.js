@@ -1,25 +1,22 @@
 import React from "react";
 import "./App.css";
 import { connect } from "react-redux";
-
+import copyToClipboard from 'copy-to-clipboard';
 import ChannelListItemComponent from "./components/ChannelListItemComponent";
-
 import { Button } from "reactstrap";
-
 import { Lumino } from "@rsksmart/lumino-light-client-sdk";
-
 import { makeStartup, changeOpenChannelStatus } from "./actions/global";
-
 import { channelsLoaded } from "./actions/channel";
-
 import OpenChannelModalComponent from "./components/OpenChannelModalComponent";
 import SendTokensModal from "./components/SendTokensModal";
 import {
   address,
-  chainId, hubEndpoint,
+  chainId,
+  hubEndpoint,
   notifierEndpoints,
   PrivateKey,
-  refreshChannelsTimeout, registryAddress, rskEndpoint,
+  registryAddress,
+  rskEndpoint,
   tokenNetworkAddresses
 } from "./constants/app";
 
@@ -32,9 +29,6 @@ class App extends React.Component {
 
   componentDidMount = async () => {
     this.props.makeStartup();
-    this.interval = setInterval(() => {
-      this.refreshChannels();
-    }, refreshChannelsTimeout * 1000);
   };
 
   componentWillUnmount() {
@@ -68,7 +62,7 @@ class App extends React.Component {
     this.props.openChannelModal(true);
   };
 
-  refreshChannels= async () => {
+  refreshChannels = async () => {
     const channels = await Lumino.get().actions.getChannels();
     this.props.loadChannels(channels);
   }
@@ -78,7 +72,7 @@ class App extends React.Component {
     return this.setState({ showSendTokens: !showSendTokens });
   };
 
-  getSendButtons () {
+  getButtons () {
     let showButtons = false;
     if (this.props.initialized) {
       const apiKey = Lumino.get().actions.getApiKey();
@@ -106,18 +100,78 @@ class App extends React.Component {
           </li>
       ),
       (
+          <li className="mx-2">
+            <Button onClick={this.refreshChannels}>
+              <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  data-icon="sync"
+                  data-prefix="fal"
+                  viewBox="0 0 512 512"
+                  width={15}
+              >
+                <path
+                    fill="#ffffff"
+                    d="M492 8h-10c-6.627 0-12 5.373-12 12v110.627C426.929 57.261 347.224 8 256 8 123.228 8 14.824 112.338 8.31 243.493 7.971 250.311 13.475 256 20.301 256h10.016c6.353 0 11.646-4.949 11.977-11.293C48.157 132.216 141.097 42 256 42c82.862 0 154.737 47.077 190.289 116H332c-6.627 0-12 5.373-12 12v10c0 6.627 5.373 12 12 12h160c6.627 0 12-5.373 12-12V20c0-6.627-5.373-12-12-12zm-.301 248h-10.015c-6.352 0-11.647 4.949-11.977 11.293C463.841 380.158 370.546 470 256 470c-82.608 0-154.672-46.952-190.299-116H180c6.627 0 12-5.373 12-12v-10c0-6.627-5.373-12-12-12H20c-6.627 0-12 5.373-12 12v160c0 6.627 5.373 12 12 12h10c6.627 0 12-5.373 12-12V381.373C85.071 454.739 164.777 504 256 504c132.773 0 241.176-104.338 247.69-235.493.339-6.818-5.165-12.507-11.991-12.507z"
+                />
+              </svg>
+              Refresh Channels
+            </Button>
+          </li>
+      ),
+      (
           <li key="send-tokens" className="mx-2">
-            <Button onClick={this.toggleShowSendTokens}>Send Tokens</Button>
+            <Button onClick={this.toggleShowSendTokens}>
+              <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="paper-plane"
+                   className="svg-inline--fa fa-paper-plane fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 512 512"
+                   width={15}>
+                <path fill="currentColor"
+                      d="M440 6.5L24 246.4c-34.4 19.9-31.1 70.8 5.7 85.9L144 379.6V464c0 46.4 59.2 65.5 86.6 28.6l43.8-59.1 111.9 46.2c5.9 2.4 12.1 3.6 18.3 3.6 8.2 0 16.3-2.1 23.6-6.2 12.8-7.2 21.6-20 23.9-34.5l59.4-387.2c6.1-40.1-36.9-68.8-71.5-48.9zM192 464v-64.6l36.6 15.1L192 464zm212.6-28.7l-153.8-63.5L391 169.5c10.7-15.5-9.5-33.5-23.7-21.2L155.8 332.6 48 288 464 48l-59.4 387.3z"></path>
+              </svg>
+              Send Tokens
+            </Button>
           </li>
       )
-    ] : [];
+    ] : [
+      (
+          <li className="mx-2">
+            <Button onClick={this.onboarding}>
+              <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  data-icon="plus"
+                  data-prefix="fal"
+                  viewBox="0 0 384 512"
+                  width={15}
+              >
+                <path
+                    fill="#ffffff"
+                    d="M376 232H216V72c0-4.42-3.58-8-8-8h-32c-4.42 0-8 3.58-8 8v160H8c-4.42 0-8 3.58-8 8v32c0 4.42 3.58 8 8 8h160v160c0 4.42 3.58 8 8 8h32c4.42 0 8-3.58 8-8V280h160c4.42 0 8-3.58 8-8v-32c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              Onboarding
+            </Button>
+          </li>
+      )
+    ];
+  }
+
+  copyAddressToClipboard() {
+    copyToClipboard(address);
   }
 
   getInfo() {
     return (
         <div className="network-info">
           <ul className="list-unstyled">
-            <li>Address: {address}</li>
+            <li>Address: {address}
+              <svg onClick={this.copyAddressToClipboard} aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy"
+                   className="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 448 512" width={15}>
+                <path fill="currentColor"
+                      d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>
+              </svg></li>
             <li>PKey: {PrivateKey}</li>
             <li>Chain Id: {chainId}</li>
             <li>RSK Endpoint: {rskEndpoint}</li>
@@ -125,7 +179,6 @@ class App extends React.Component {
             <li>Registry Contract Address: {registryAddress}</li>
             <li>Token Network Addresses: {tokenNetworkAddresses.join(', ')}</li>
             <li>Notifier Endpoints: {notifierEndpoints.join(', ')}</li>
-            <li>Refreshing Channels after {refreshChannelsTimeout} seconds</li>
           </ul>
         </div>
     );
@@ -133,7 +186,7 @@ class App extends React.Component {
 
   render = () => {
     const { showSendTokens } = this.state;
-    const sendButtons = this.getSendButtons();
+    const buttons = this.getButtons();
     const info = this.getInfo();
     return (
       <div className="App d-flex h-100 flex-column">
@@ -148,25 +201,7 @@ class App extends React.Component {
             </g>
           </svg>
           <ul className="list-unstyled text-center buttons-list ml-lg-auto d-flex mb-0 mt-3 mt-lg-0">
-            <li className="mx-2">
-              <Button onClick={this.onboarding}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  data-icon="plus"
-                  data-prefix="fal"
-                  viewBox="0 0 384 512"
-                  width={15}
-                >
-                  <path
-                    fill="#ffffff"
-                    d="M376 232H216V72c0-4.42-3.58-8-8-8h-32c-4.42 0-8 3.58-8 8v160H8c-4.42 0-8 3.58-8 8v32c0 4.42 3.58 8 8 8h160v160c0 4.42 3.58 8 8 8h32c4.42 0 8-3.58 8-8V280h160c4.42 0 8-3.58 8-8v-32c0-4.42-3.58-8-8-8z"
-                  />
-                </svg>
-                Onboarding
-              </Button>
-            </li>
-            {sendButtons}
+            {buttons}
           </ul>
         </header>
         <li>{info}</li>

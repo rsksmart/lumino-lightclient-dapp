@@ -48,11 +48,8 @@ const setCallbacks = reloadChannelsFN => {
     showSuccess(message);
     reloadChannelsFN();
     for (let notifierEndpoint of notifierEndpoints) {
-      Lumino.get().actions.subscribeToPartnerClosesSpecificChannel(
-          notifierEndpoint,
-          chId,
-          token_network_identifier
-      );
+      Lumino.get().actions.subscribeToUserClosesChannelOnToken(notifierEndpoint, token_network_identifier);
+      Lumino.get().actions.subscribeToPartnerClosesSpecificChannel(notifierEndpoint, chId, token_network_identifier);
     }
   });
 
