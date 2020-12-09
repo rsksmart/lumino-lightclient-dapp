@@ -162,31 +162,37 @@ class App extends React.Component {
   }
 
   getInfo() {
+    let notifierItems = null;
+    if (notifierEndpoints.length > 0) {
+      notifierItems = (
+          <li key="notifier-endpoints">
+            Notifier Endpoints:&nbsp;
+            {notifierEndpoints.map((notifierEndpoint, index) => {
+              if (index < notifierEndpoints.length - 1) {
+                return (<span key={`notifier-endpoint-${index}`}><a key={`notifier-endpoint-link-${index}`} href={notifierEndpoint}>{notifierEndpoint}</a>,&nbsp;</span>);
+              }
+              return (<span key={`notifier-endpoint-${index}`}><a key={`notifier-endpoint-link-${index}`} href={notifierEndpoint}>{notifierEndpoint}</a></span>);
+            })}
+          </li>
+      );
+    }
     return (
         <div className="network-info">
           <ul className="list-unstyled">
-            <li>Address: {address}
+            <li key="address">Address: {address}
               <svg onClick={this.copyAddressToClipboard} aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy"
                    className="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg"
                    viewBox="0 0 448 512" width={15}>
                 <path fill="currentColor"
                       d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>
               </svg></li>
-            <li>PKey: {PrivateKey}</li>
-            <li>Chain Id: {chainId}</li>
-            <li>RSK Endpoint: <a href={rskEndpoint}>{rskEndpoint}</a></li>
-            <li>Hub Endpoint: <a href={hubEndpoint}>{hubEndpoint}</a></li>
-            <li>Registry Contract Address: {registryAddress}</li>
-            <li>Token Network Addresses: {tokenNetworkAddresses.join(', ')}</li>
-            <li>
-              Notifier Endpoints:&nbsp;
-              {notifierEndpoints.map((notifierEndpoint, index) => {
-                if (index < notifierEndpoints.length - 1) {
-                  return (<span key={`notifier-endpoint-${index}`}><a key={`notifier-endpoint-link-${index}`} href={notifierEndpoint}>{notifierEndpoint}</a>,&nbsp;</span>);
-                }
-                return (<span key={`notifier-endpoint-${index}`}><a key={`notifier-endpoint-link-${index}`} href={notifierEndpoint}>{notifierEndpoint}</a></span>);
-              })}
-            </li>
+            <li key="private-key">PKey: {PrivateKey}</li>
+            <li key="chain-id">Chain Id: {chainId}</li>
+            <li key="rsk-endpoint">RSK Endpoint: <a href={rskEndpoint}>{rskEndpoint}</a></li>
+            <li key="hub-endpoint">Hub Endpoint: <a href={hubEndpoint}>{hubEndpoint}</a></li>
+            <li key="registry-contract-address">Registry Contract Address: {registryAddress}</li>
+            <li key="token-network-address">Token Network Addresses: {tokenNetworkAddresses.join(', ')}</li>
+            {notifierItems}
           </ul>
         </div>
     );
