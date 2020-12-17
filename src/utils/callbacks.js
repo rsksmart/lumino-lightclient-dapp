@@ -1,6 +1,6 @@
 // Set callbacks
 import { Lumino } from "@rsksmart/lumino-light-client-sdk";
-import { showInfo, showSuccess } from "../utils";
+import {showError, showInfo, showSuccess} from "../utils";
 import { toEth } from "../utils";
 import { CALLBACKS } from "@rsksmart/lumino-light-client-sdk/src/utils/callbacks";
 import {notifierEndpoints} from "../constants/app";
@@ -29,12 +29,14 @@ const setCallbacks = reloadChannelsFN => {
   });
 
   Lumino.callbacks.set(CALLBACKS.FAILED_CREATE_PAYMENT, (p, err) => {
-    console.log("payment", p);
-    console.log("err", err);
+    console.error("payment", p);
+    console.error("err", err);
+    showError("Error creating payment");
   });
 
   Lumino.callbacks.set(CALLBACKS.SENT_PAYMENT, p => {
     console.log("payment", p);
+    showInfo("Payment Sent");
   });
 
   Lumino.callbacks.set(CALLBACKS.OPEN_CHANNEL, channel => {
@@ -80,35 +82,39 @@ const setCallbacks = reloadChannelsFN => {
     reloadChannelsFN();
   });
 
-  Lumino.callbacks.set(CALLBACKS.REQUEST_OPEN_CHANNEL, ch =>
-    console.log("Req open", ch)
-  );
-  Lumino.callbacks.set(CALLBACKS.REQUEST_CLOSE_CHANNEL, ch =>
+  Lumino.callbacks.set(CALLBACKS.REQUEST_OPEN_CHANNEL, ch => {
+    console.log("Req open", ch);
+    showInfo("Requesting Open Channel");
+  });
+  Lumino.callbacks.set(CALLBACKS.REQUEST_CLOSE_CHANNEL, ch => {
     console.log("Req close", ch)
-  );
-  Lumino.callbacks.set(CALLBACKS.REQUEST_DEPOSIT_CHANNEL, ch =>
-    console.log("Req Deposit", ch)
-  );
+    showInfo("Requesting Close Channel");
+  });
+  Lumino.callbacks.set(CALLBACKS.REQUEST_DEPOSIT_CHANNEL, ch => {
+    console.log("Req Deposit", ch);
+    showInfo("Requesting Deposit Channel");
+  });
 
-  Lumino.callbacks.set(CALLBACKS.FAILED_PAYMENT, p =>
-    console.log("Failed payment cb", p)
-  );
+  Lumino.callbacks.set(CALLBACKS.FAILED_PAYMENT, p => {
+    console.error("Failed payment cb", p);
+    showError("Payment failed");
+  });
 
-  Lumino.callbacks.set(CALLBACKS.FAILED_CLOSE_CHANNEL, (ch, e) =>
-    console.log("Failed close", ch, e)
-  );
+  Lumino.callbacks.set(CALLBACKS.FAILED_CLOSE_CHANNEL, (ch, e) => {
+    console.error("Failed close", ch, e);
+    showError("Failed closing channel");
+  });
 
-  Lumino.callbacks.set(CALLBACKS.FAILED_DEPOSIT_CHANNEL, (ch, e) =>
-    console.log("Failed DEPOSIT", ch, e)
-  );
+  Lumino.callbacks.set(CALLBACKS.FAILED_DEPOSIT_CHANNEL, (ch, e) => {
+    console.error("Failed DEPOSIT", ch, e);
+    showError(`Failed deposit channel: ${e}`);
+  });
 
-  Lumino.callbacks.set(CALLBACKS.FAILED_OPEN_CHANNEL, (ch, e) =>
-    console.log("Failed OPEN", ch, e)
-  );
+  Lumino.callbacks.set(CALLBACKS.FAILED_OPEN_CHANNEL, (ch, e) => {
+    console.error("Failed OPEN", ch, e);
+    showError(`Failed open channel: ${e}`);
+  });
 
-  Lumino.callbacks.set(CALLBACKS.FAILED_PAYMENT, p =>
-    console.log("Failed payment", p)
-  );
 };
 
 export default setCallbacks;
