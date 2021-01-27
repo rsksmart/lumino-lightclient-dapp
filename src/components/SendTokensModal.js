@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
+  Input
 } from "reactstrap";
 
 import { changePayModal } from "../actions/channel";
@@ -21,7 +21,7 @@ class PayModalComponent extends React.Component {
     this.state = {
       amount: "",
       tokenAddress: "",
-      partner: "",
+      partner: ""
     };
   }
 
@@ -32,7 +32,7 @@ class PayModalComponent extends React.Component {
     const body = {
       partner: partner,
       token_address: tokenAddress,
-      amount: amountWei,
+      amount: amountWei
     };
     const message = `Sending payment of ${amount}  to ${partner} `;
     showInfo(message);
@@ -40,7 +40,7 @@ class PayModalComponent extends React.Component {
     await Lumino.get().actions.createPayment(body);
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({ amount: event.target.value });
   };
 
@@ -103,15 +103,15 @@ class PayModalComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    modalOpened: state.channel.openedPayModal,
+    modalOpened: state.channel.openedPayModal
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggle: (data) => dispatch(changePayModal(data)),
+    toggle: data => dispatch(changePayModal(data))
   };
 }
 

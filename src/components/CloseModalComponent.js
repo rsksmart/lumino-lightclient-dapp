@@ -4,21 +4,33 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 import { Lumino } from "@rsksmart/lumino-light-client-sdk";
 import { showInfo } from "../utils";
+import {notifierEndpoints} from "../constants/app";
 
-const CloseModalComponent = (props) => {
+const CloseModalComponent = props => {
   const { isOpen, toggle, partner, channelId, tokenName } = props;
 
   const closeChannel = async () => {
+    const lumino = Lumino.get();
     const params = {
       partner: props.partner,
       tokenAddress: props.tokenAddress,
       address: props.address,
       tokenNetworkAddress: props.tokenNetworkAddress,
-      channel_identifier: props.channelId,
+      channelIdentifier: props.channelId
     };
     const message = `Requesting to close channel `;
     showInfo(message);
-    Lumino.get().actions.closeChannel(params);
+
+    lumino.actions.closeChannel(params);
+
+    for (let notifierEndpoint of notifierEndpoints) {
+      await lumino.actions.subscribeToPartnerClosesSpecificChannel(
+          notifierEndpoint,
+          props.channelId,
+          props.tokenNetworkAddress
+      );
+    }
+
     toggle();
   };
 

@@ -10,7 +10,7 @@ import { channelsLoaded } from "../actions/channel";
 import {
   Lumino,
   LocalStorageHandler,
-  SigningHandler,
+  SigningHandler
 } from "@rsksmart/lumino-light-client-sdk";
 import {
   address,
@@ -18,7 +18,7 @@ import {
   rskEndpoint,
   chainId,
   PrivateKey,
-  notifierEndPoint
+  registryAddress
 } from "../constants/app";
 import setCallbacks from "../utils/callbacks";
 
@@ -32,8 +32,9 @@ export default [
           rskEndpoint,
           hubEndpoint,
           address,
-          notifierEndPoint
+          registryAddress
         };
+        console.log("REGISTRY ADDRESS", configParams.registryAddress)
         const web3 = new Web3(rskEndpoint);
         const signingHandler = SigningHandler();
         signingHandler.init(web3, PrivateKey);
@@ -50,6 +51,6 @@ export default [
         // Store web3
         dispatch(startupFinish(web3));
       })();
-    },
-  }),
+    }
+  })
 ];

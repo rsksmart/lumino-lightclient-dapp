@@ -8,7 +8,8 @@ import {
 export function startupFinish(_web3) {
   return {
     type: STARTUP_FINISH,
-    web3: _web3
+    web3: _web3,
+    initialized: true
   };
 }
 

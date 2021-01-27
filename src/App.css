@@ -109,3 +109,28 @@ b {
     max-height: 340px;
     overflow-y: auto;
 }
+
+.network-info {
+    color: white;
+    font-weight: bold;
+    font-size: 0.9em;
+    position: relative;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    width: max-content;
+    border-radius: 1em;
+    margin: 1em;
+}
+
+.network-info > ul > li > svg {
+    margin-left: 0.5em;
+    position: relative;
+    top: -0.5em;
+    cursor: pointer;
+}
+
+.network-info > ul {
+    list-style: none;
+    padding: 1em;
+    margin: 0;
+}

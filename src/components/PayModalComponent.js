@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
+  Input
 } from "reactstrap";
 
 import { changePayModal } from "../actions/channel";
@@ -19,7 +19,7 @@ class PayModalComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      amount: "",
+      amount: ""
     };
   }
 
@@ -30,7 +30,7 @@ class PayModalComponent extends React.Component {
     const body = {
       partner: this.props.partner,
       token_address: this.props.tokenAddress,
-      amount: amountWei,
+      amount: amountWei
     };
     const message = `Sending payment of ${amount} ${tokenName} to ${partner} `;
     showInfo(message);
@@ -53,7 +53,7 @@ class PayModalComponent extends React.Component {
     }
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({ amount: event.target.value });
   };
 
@@ -99,15 +99,15 @@ class PayModalComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    modalOpened: state.channel.openedPayModal,
+    modalOpened: state.channel.openedPayModal
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggle: (data) => dispatch(changePayModal(data)),
+    toggle: data => dispatch(changePayModal(data))
   };
 }
 

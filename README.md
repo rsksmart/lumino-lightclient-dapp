@@ -16,20 +16,31 @@ This web application represents a Lumino light client, therefore, it must connec
 - [RSK node](https://github.com/rsksmart/rskj) to interact directly with the RSK blockchain.
 
 
-In order to use this example, you must have a Lumino HUB, RIF Notifier and a RSK node up and running.
+In order to use this example, you must have a Lumino HUB, RIF Notifier and a RSK node up and running. Also, you must set the RNS registry address for your environment (https://developers.rsk.co/rif/rns/specs/registry/)
 
 Then, just modify the `.env` file: 
 
 ```
-REACT_APP_ADDRESS=0x1C21A4bC096377A1b80D180cA7bAd712062677Ae
+REACT_APP_ADDRESS=0x9f931600e2301Cc290f3b541B87AD92cC267849f
+REACT_APP_PRIVATE_KEY=0x60dc323d7041f527d8898ddf72a2b23dc8b3c13d0f4a75f3fdc01656faf8c3d9
 REACT_APP_CHAIN_ID=33
-REACT_APP_PRIVATE_KEY=your_private_key_here
 REACT_APP_RSK_ENDPOINT=http://localhost:4444
-REACT_APP_HUB_ENDPOINT=http://localhost:5003/api/v1/
-REACT_APP_RIF_NOTIFIER_ENDPOINT=http://localhost:8080
-
+REACT_APP_HUB_ENDPOINT=http://localhost:5000/api/v1/
+REACT_APP_RNS_REGISTRY_CONTRACT_ADDRESS=0x45aA64F4A3A4BaCb863B6235968c9fFBbd6D4778
+REACT_APP_TOKEN_NETWORK_ADDRESSES=0x04b7fc01613b59311EBB373B30f365F1894213e2,0xF924562C30614FFB87f440Bf88be49579b2Fb953
+REACT_APP_NOTIFIER_ENDPOINTS=http://127.0.0.1:8081,http://127.0.0.1:8082,http://127.0.0.1:8083
 ```
 
+* **REACT_APP_ADDRESS**: the account address to use on this application
+* **REACT_APP_PRIVATE_KEY**: the private key for the account address used in **REACT_APP_ADDRESS**
+* **REACT_APP_CHAIN_ID**: the RSK chain id that you want to connect to (ex: 33). Valid values are: 30 (MAINNET), 31(TESTNET) or 33(REGTEST))
+* **REACT_APP_RSK_ENDPOINT**: the RSK server endpoint to connect to
+* **REACT_APP_HUB_ENDPOINT**: the Hub endpoint to connect to
+* **REACT_APP_RNS_REGISTRY_CONTRACT_ADDRESS**: the RNS Registry Contract Address of the contract deployed on the network
+* **REACT_APP_TOKEN_NETWORK_ADDRESSES**: the list of token network addresses that we are going to use (should be all the addresses of the deployed token networks)
+* **REACT_APP_NOTIFIER_ENDPOINTS**: the list of notifier endpoints to listen to
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
