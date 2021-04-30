@@ -18,9 +18,14 @@ import {
   rskEndpoint,
   chainId,
   PrivateKey,
-  registryAddress
+  registryAddress,
+  preferredRelays,
+  smartWalletFactoryContractAddress,
+  relayHubContractAddress,
+  deployVerifierContractAddress, relayVerifierContractAddress
 } from "../constants/app";
 import setCallbacks from "../utils/callbacks";
+import {loadSmartWallets} from "../actions/enveloping";
 
 export default [
   createLogic({
@@ -32,7 +37,14 @@ export default [
           rskEndpoint,
           hubEndpoint,
           address,
-          registryAddress
+          registryAddress,
+          enveloping: {
+            relayVerifierContractAddress,
+            deployVerifierContractAddress,
+            relayHubContractAddress,
+            smartWalletFactoryContractAddress,
+            preferredRelays
+          }
         };
         console.log("REGISTRY ADDRESS", configParams.registryAddress)
         const web3 = new Web3(rskEndpoint);
@@ -46,7 +58,12 @@ export default [
 
         reloadChannels();
 
-        setCallbacks(reloadChannels);
+        const reloadWallets = () => dispatch(loadSmartWallets(Lumino.get().actions.getSmartWallets()))
+
+        setCallbacks({
+          reloadChannelsFN: reloadChannels,
+          reloadWalletsFN: reloadWallets
+        });
 
         // Store web3
         dispatch(startupFinish(web3));

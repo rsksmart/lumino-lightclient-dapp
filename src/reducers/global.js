@@ -1,12 +1,12 @@
 import {
   STARTUP_FINISH,
-  CHANGE_OPEN_CHANNEL_MODAL,
+  CHANGE_OPEN_CHANNEL_MODAL
 } from '../constants/action-types'
 
 const initialState = {
   web3: undefined,
   openedOpenChannel: false,
-  initialized: false,
+  initialized: false
 }
 const global = (state = initialState, action) => {
   switch (action.type) {

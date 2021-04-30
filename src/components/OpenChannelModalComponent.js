@@ -16,6 +16,7 @@ import { channelsLoaded } from "../actions/channel";
 
 import { Lumino } from "@rsksmart/lumino-light-client-sdk";
 import { showInfo } from "../utils";
+import {relayEnvelopingTransaction} from "../actions/enveloping";
 
 class OpenChannelModalComponent extends React.Component {
   constructor(props) {
@@ -33,10 +34,25 @@ class OpenChannelModalComponent extends React.Component {
       settleTimeout: 500,
       tokenAddress
     };
-    const message = `Request to open a channel with partner ${partner} on token ${tokenAddress}`;
-    showInfo(message);
-    this.props.toggle(null);
-    await Lumino.get().actions.openChannel(params);
+    if (this.props.usingEnveloping) {
+      const openChannelTransaction = async (wallet, tokenAddress, tokenAmount) => {
+        const message = `Request to open a channel with partner ${partner} on token ${tokenAddress}`;
+        showInfo(message);
+        this.props.toggle();
+        params.enveloping = {
+          smartWalletAddress: wallet.address,
+          tokenAmount,
+          tokenAddress
+        };
+        await Lumino.get().actions.openChannel(params);
+      };
+      await this.props.relayTransaction(openChannelTransaction);
+    } else {
+        const message = `Request to open a channel with partner ${partner} on token ${tokenAddress}`;
+        showInfo(message);
+        this.props.toggle(null);
+        await Lumino.get().actions.openChannel(params);
+    }
   };
 
   cancel = () => {
@@ -98,14 +114,16 @@ class OpenChannelModalComponent extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    modalOpened: state.global.openedOpenChannel
+    modalOpened: state.global.openedOpenChannel,
+    usingEnveloping: state.enveloping.usingEnveloping
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     toggle: data => dispatch(changeOpenChannelStatus(data)),
-    loadChannels: channels => dispatch(channelsLoaded(channels))
+    loadChannels: channels => dispatch(channelsLoaded(channels)),
+    relayTransaction: transaction => dispatch(relayEnvelopingTransaction(transaction))
   };
 }
 

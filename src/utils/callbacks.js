@@ -5,7 +5,7 @@ import { toEth } from "../utils";
 import { CALLBACKS } from "@rsksmart/lumino-light-client-sdk/src/utils/callbacks";
 import {notifierEndpoints} from "../constants/app";
 
-const setCallbacks = reloadChannelsFN => {
+const setCallbacks = ({reloadChannelsFN, reloadWalletsFN}) => {
   Lumino.callbacks.set(CALLBACKS.RECEIVED_PAYMENT, () => {
     showInfo("Received a payment, now processing it...");
   });
@@ -115,6 +115,10 @@ const setCallbacks = reloadChannelsFN => {
     showError(`Failed open channel: ${e}`);
   });
 
+  Lumino.callbacks.set(CALLBACKS.WALLETS_UPDATED, (wallets) => {
+    console.debug("Wallets updated", wallets);
+    reloadWalletsFN();
+  });
 };
 
 export default setCallbacks;
